@@ -113,10 +113,6 @@ class Eval():
         original_mono = wavfiles
         original_voice = 'sample/original_sources/orig_voice/'
 
-        med_sdr_list = []
-        med_sir_list = []
-        med_sar_list = []
-
         med_sdr_list2 = []
         med_sir_list2 = []
         med_sar_list2 = []
@@ -129,10 +125,6 @@ class Eval():
             sdr_mixture_list = []
             NSDR_list = []
             durations_list = []
-
-            sdr_list = []
-            sir_list = []
-            sar_list = []
 
             sdr_list2 = []
             sir_list2 = []
@@ -193,37 +185,15 @@ class Eval():
 
                 print('VOICE:  sdr =', temp_sdr[0],
                       'sir =', temp_sir[0], 'sar =', temp_sar[0])
-                print('MUSIC:  sdr =', temp_sdr[1],
-                      'sir =', temp_sir[1], 'sar =', temp_sar[1])
-
-                sdr_list.append(temp_sdr[1])
-                sir_list.append(temp_sir[1])
-                sar_list.append(temp_sar[1])
 
                 sdr_list2.append(temp_sdr[0])
                 sir_list2.append(temp_sir[0])
                 sar_list2.append(temp_sar[0])
 
-        # Find median
-        median_sdr = np.mean(sdr_list)
-        median_sir = np.mean(sir_list)
-        median_sar = np.mean(sar_list)
-
-        med_sdr_list.append(median_sdr)
-        med_sir_list.append(median_sir)
-        med_sar_list.append(median_sar)
-
-        # METRICS 2
-        median_sdr2 = np.mean(sdr_list2)
-        print(median_sdr2)
-        median_sir2 = np.mean(sir_list2)
-        print(median_sir2)
-        median_sar2 = np.mean(sar_list2)
-        print(median_sar2)
-
-        med_sdr_list2.append(median_sdr2)
-        med_sir_list2.append(median_sir2)
-        med_sar_list2.append(median_sar2)
+        # Create list of median of metrics
+        med_sdr_list2.append(np.mean(sdr_list2))
+        med_sir_list2.append(np.mean(sir_list2))
+        med_sar_list2.append(np.mean(sar_list2))
 
         # NSDR = SDR(estimated voice, voice) - SDR(mixture, voice)
         for i in range(len(sdr_mixture_list)):
@@ -234,8 +204,7 @@ class Eval():
         # mixtures of each set, weighted by their length.
         dur_list_sum = sum(durations_list)
         arithm = np.multiply(durations_list, NSDR_list)
-        athroisma_arithm = np.sum(arithm)
-        GNSDR = np.divide(athroisma_arithm, dur_list_sum)
+        GNSDR = np.divide(np.sum(arithm), dur_list_sum)
         print('GNSDR (dB)', GNSDR)
 
         return med_sdr_list2, med_sir_list2, med_sar_list2
