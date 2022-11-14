@@ -10,6 +10,7 @@ from datetime import datetime
 
 from stft import stft
 from istft import istft
+import evaluation
 
 '''
 We perform singing voice separation using robust principal component analysis
@@ -20,14 +21,21 @@ Recordings Using Robust Principal Component Analysis," in ICASSP 2012.
 This is an exact translation of the MATLAB algorithm written by Po-Sen Huang.
 '''
 
+
 def choosvd(n, d):
     y = False
-    if n   <= 100: y = d / n <= 0.02
-    elif n <= 200: y = d/n <= 0.06
-    elif n <= 300: y = d/n <= 0.26
-    elif n <= 400: y = d/n <= 0.28
-    elif n <= 500: y = d/n <= 0.34
-    else: y = d/n <= 0.38
+    if n <= 100:
+        y = d/n <= 0.02
+    elif n <= 200:
+        y = d/n <= 0.06
+    elif n <= 300:
+        y = d/n <= 0.26
+    elif n <= 400:
+        y = d/n <= 0.28
+    elif n <= 500:
+        y = d/n <= 0.34
+    else:
+        y = d/n <= 0.38
     return y
 
 
@@ -56,7 +64,8 @@ def inexact_alm_rpca(X, lmbda=None, tol=1e-7, maxiter=1000):
 
     while not Converged:
         Eraw = X - A + (1 / mu) * Y
-        Eupdate = np.maximum(Eraw - lmbda / mu, 0) + np.minimum(Eraw + lmbda / mu, 0)
+        Eupdate = np.maximum(Eraw - lmbda / mu, 0) \
+            + np.minimum(Eraw + lmbda / mu, 0)
 
         sparse_svd = choosvd(n, sv)
         if sparse_svd:
@@ -77,9 +86,8 @@ def inexact_alm_rpca(X, lmbda=None, tol=1e-7, maxiter=1000):
         else:
             sv = int(np.min([svp + np.round(0.05 * n), n]))
 
-        Aupdate = np.dot(np.dot(U[:, :svp],
-                                np.diag(S[:svp] - 1 / mu)),
-                                V[:, :svp].T)
+        Aupdate = np.dot(np.dot(U[:, :svp], np.diag(S[:svp] - 1 / mu)),
+                         V[:, :svp].T)
 
         total_svd += 1
         A = Aupdate
@@ -209,5 +217,11 @@ if __name__ == '__main__':
     wavfiles = 'sample/original_sources/orig_mono/'
 
     # Separation:
-    for lmbda in lmbda_list:
-        run_separation(wavfiles, lmbda)
+    # for lmbda in lmbda_list:
+    #     run_separation(wavfiles, lmbda)
+
+    # Evaluation metrics:
+    test = evaluation.Eval()
+    med_sdr_list2, med_sir_list2, med_sar_list2 = test.eval_metrics(
+                                                  wavfiles,
+                                                  lmbda_list)
