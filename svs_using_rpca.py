@@ -1,3 +1,12 @@
+'''
+We perform singing voice separation using robust principal component analysis
+on a sample of four songs from MIR-1K dataset based on P.-S. Huang, S. D. Chen,
+P. Smaragdis, M. Hasegawa-Johnson, "Singing-Voice Separation From Monaural
+Recordings Using Robust Principal Component Analysis," in ICASSP 2012.
+
+This is an exact translation of the MATLAB algorithm written by Po-Sen Huang.
+'''
+
 import os
 
 import numpy as np
@@ -11,15 +20,6 @@ from datetime import datetime
 from stft import stft
 from istft import istft
 import evaluation
-
-'''
-We perform singing voice separation using robust principal component analysis
-on a sample of four songs from MIR-1K dataset based on P.-S. Huang, S. D. Chen,
-P. Smaragdis, M. Hasegawa-Johnson, "Singing-Voice Separation From Monaural
-Recordings Using Robust Principal Component Analysis," in ICASSP 2012.
-
-This is an exact translation of the MATLAB algorithm written by Po-Sen Huang.
-'''
 
 
 def choosvd(n, d):
@@ -217,8 +217,8 @@ if __name__ == '__main__':
     wavfiles = 'sample/original_sources/orig_mono/'
 
     # Separation:
-    # for lmbda in lmbda_list:
-    #     run_separation(wavfiles, lmbda)
+    for lmbda in lmbda_list:
+        run_separation(wavfiles, lmbda)
 
     # Evaluation metrics:
     test = evaluation.Eval()
