@@ -23,4 +23,4 @@
 ## Referencies
 
 * P.-S. Huang, S. D. Chen, P. Smaragdis, M. Hasegawa-Johnson, "Singing-Voice Separation From 
-Monaural Recordings Using Robust Principal Component Analysis," 2012.
+Monaural Recordings Using Robust Principal Component Analysis" 2012.
