@@ -1,21 +1,27 @@
 '''
-C = m*k  ,  S =k*m
+Archetypal analysis with sparseness constraints decomposes a matrix X
+that is the magnitude spectrogram of a mixed signal,
+into a low rank matrix X*C*S that represents the accompaniment music part
+and a sparse matrix E that represents the singing voice part.
+
+Matrices C, S have dimentions: C = m*k,  S =k*m,
+where k = number of archetypes and m = number of columns of matrix X.
 '''
+
 import numpy as np
 from numpy.linalg import norm
 from sklearn.preprocessing import normalize
 
 
-class Nonegative_Archetypal_analysis():
+class Archetypal_analysis_sparseness():
     def __init__(self, X, k, lmbda, max_iter, wav_name):
         """
-
         Class initialization
         -------------
-        param X: Data matrix.
-        param k: Number of archetypes
-        param l: trade-off parameter
-        param tol: stopping criterion
+        param X : Data matrix
+        param k : Number of archetypes
+        param lmbda : trade-off parameter
+        param tol : stopping criterion
 
         Attributes
         -------------
@@ -27,8 +33,6 @@ class Nonegative_Archetypal_analysis():
         c_err : Error of reconstruction of matrix C
         s_err : Error of reconstruction of matrix S
         e_err : Error of reconstruction of matrix E
-
-
         """
         self.X = X
         self.n, self.m = self.X.shape
@@ -81,7 +85,7 @@ class Nonegative_Archetypal_analysis():
 
     def initialize_e(self):
         """
-        Initalize sparse matrix E with zero values.
+        Initalize sparse matrix E with zero values
         """
         self.E = np.zeros((self.n, self.m))
 
@@ -153,15 +157,21 @@ class Nonegative_Archetypal_analysis():
                                            prevS,
                                            prevE)
             max_error_list = [c_err[i], s_err[i], e_err[i]]
-            max_err = max(max_error_list)
 
             """
+            diff parameter shows how the error of reconstruction changes as
+            the repetitions increase
+            max_err parameter shows the maximum error out of the three matrices
+            reconstruction error
             Stopping criteria:
             """
             diff = abs(self.frob_error[i-1] - self.frob_error[i])
+            max_err = max(max_error_list)
             e = 1e-3
             if diff <= self.tol and max_err < e:
-                print('iter: ', self.iter, ', max error: ', max_err)
+                print(self.wav_name,
+                      '-- iter: ', self.iter,
+                      ', max error: ', max_err)
                 break
 
             self.iter += 1
