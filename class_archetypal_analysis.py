@@ -120,7 +120,7 @@ class Nonegative_Archetypal_analysis():
         prevE = self.E.copy()
 
         Eraw = self.X - (self.X).dot(self.C).dot(self.S)
-        E_upd = np.maximum(Eraw - self.l, 0) + np.minimum(Eraw + self.l, 0)
+        E_upd = np.maximum(Eraw - self.lmbda, 0) + np.minimum(Eraw + self.lmbda, 0)
         self.E = np.maximum(E_upd, 0.0)
 
         return self.E, prevE
