@@ -9,40 +9,43 @@ from istft import istft
 import evaluation
 
 
-def number_of_archetypes(lmbda, mixture_filepath):
+def number_of_archetypes(lmbda, mixture_filepath, rpca_rank):
     """
     k = rank of low matrix.
     for comparison reasons we consider the rank of the low rank matrix
     seperated with archetypal analyis method equal to the low-rank matrix
     seperated with RPCA method.
+
+    we compute the rank of each track individually, by 
     """
-    # Compute rank of low-rank matrix separated with RPCA
-    if lmbda == 0.1 or lmbda == 0.5 or lmbda == 1.0 or lmbda == 2.5:
-        sing_val_matrix_path = \
-            f'drive/MyDrive/Robust_PCA/matrices/results_for_l={lmbda}/singular_values_of_A/'
+    if rpca_rank:
+        # Compute rank of low-rank matrix separated with RPCA
+        if lmbda == 0.1 or lmbda == 0.5 or lmbda == 2.0 or lmbda == 2.5:
+            sing_val = \
+                f'rpca_results/no_mask/results_for_l={lmbda}/matrices/singular_values_of_A/'
+        else:
+            sing_val = \
+                'rpca_results/no_mask/results_for_l=1.0/matrices/singular_values_of_A/'
+
+        track = sing_val + f'S_{mixture_filepath}.npy'
+
+        sing_A = np.load(track)
+
+        if lmbda == 0.1:
+            super_threshold_indices = sing_A < 1.0
+        elif lmbda == 0.5:
+            super_threshold_indices = sing_A < 1.0
+        elif lmbda == 1.0 or 1.5:
+            super_threshold_indices = sing_A < 10.0
+        elif lmbda == 2.0 or 2.5:
+            super_threshold_indices = sing_A < 15.0
+        else:
+            super_threshold_indices = sing_A < 25.0
+
+        sing_A[super_threshold_indices] = 0
+        k = int(np.count_nonzero(sing_A))
     else:
-        sing_val_matrix_path = \
-            'drive/MyDrive/Robust_PCA/matrices/results_for_l=1.0/singular_values_of_A/'
-
-    if not os.path.isdir(sing_val_matrix_path):
-        os.mkdir(sing_val_matrix_path)
-    track = sing_val_matrix_path + f'S_{mixture_filepath}.npy'
-
-    sing_A = np.load(track)
-
-    if lmbda == 0.1:
-        super_threshold_indices = sing_A < 1.0
-    elif lmbda == 0.5:
-        super_threshold_indices = sing_A < 1.0
-    elif lmbda == 1.0 or 1.5:
-        super_threshold_indices = sing_A < 10.0
-    elif lmbda == 2.0 or 2.5:
-        super_threshold_indices = sing_A < 15.0
-    else:
-        super_threshold_indices = sing_A < 25.0
-
-    sing_A[super_threshold_indices] = 0
-    k = int(np.count_nonzero(sing_A))
+        k = 10
 
     return k
 
@@ -54,14 +57,15 @@ def singing_voice_separation(mixture_dir,
                              background,
                              lmbda,
                              nFFT,
-                             h):
+                             h,
+                             rpca_rank):
 
     filepath = mixture_dir+mixture_filepath
     vocals_filepath = vocals+'/'+mixture_filepath
     background_filepath = background+'/'+mixture_filepath
 
-    # k = number_of_archetypes(lmbda, mixture_filepath)
-    k = 10
+    k = number_of_archetypes(lmbda, mixture_filepath, rpca_rank)
+    print('number of archetypes=', k)
     # Separate mix:
     sr = 16000
     data, sr = sf.read(filepath)
@@ -117,7 +121,8 @@ def run_separation(wavfiles, lmbda):
                                  background,
                                  lmbda=lmbda,
                                  nFFT=1024,
-                                 h=256)
+                                 h=256,
+                                 rpca_rank=True)
 
     difference = datetime.now() - start
     print(difference)
