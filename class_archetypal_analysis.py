@@ -6,7 +6,7 @@ from numpy.linalg import norm
 from sklearn.preprocessing import normalize
 
 
-class Nonegative_Archetypal_analysis():
+class Archetypal_analysis_sparseness():
     def __init__(self, X, k, lmbda, max_iter, wav_name):
         """
 
