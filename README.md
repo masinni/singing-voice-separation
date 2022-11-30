@@ -2,6 +2,8 @@
 
 ## Introduction
 
+This is a singing voice separation tool developed using unsupervised machine learning methods. It can seperate the singing voice and the background music from the original song.
+
 ## Dependencies
 
 * Python==3.10.6
@@ -13,6 +15,10 @@
 * hlsvdpro==2.0.0
 
 ## Dataset
+
+# MIR-1K Dataset
+
+Music Information Retrieval, 1000 song clips [MIR-1K](https://sites.google.com/site/unvoicedsoundseparation/mir-1k), dataset for singing voice separation.
 
 ## Usage
 
