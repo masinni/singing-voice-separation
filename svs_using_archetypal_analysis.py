@@ -1,3 +1,9 @@
+"""
+We perform singing voice separation using Archetypal Analysis with sparseness
+constraints. We use the same stft, istft and evaluation functions as in SVS
+with RPCA in order to compare both methods.
+"""
+
 import os
 import numpy as np
 import soundfile as sf
@@ -11,12 +17,17 @@ import evaluation
 
 def number_of_archetypes(lmbda, mixture_filepath, rpca_rank):
     """
-    k = rank of low matrix.
-    for comparison reasons we consider the rank of the low rank matrix
-    seperated with archetypal analyis method equal to the low-rank matrix
-    seperated with RPCA method.
-
-    we compute the rank of each track individually, by 
+    The number of archetypes, k, is also the rank of matrices C,S.
+    rpca_rank == True:
+    For comparison reasons we consider the rank of the low rank matrix
+    seperated with archetypal analyis method equal to the rank of the
+    low-rank matrix seperated with RPCA method.
+    We have saved the singular-values matrix S, taken from the Singular
+    Value Decomposition that we applyed to the low-rank matrix A separated
+    using RPCA. Matrix S is equal to the rank of a matrix by applying
+    a threshold to the values that are almost zero.
+    rpca_Rank == False:
+    k == 10 default value
     """
     if rpca_rank:
         # Compute rank of low-rank matrix separated with RPCA
@@ -66,6 +77,7 @@ def singing_voice_separation(mixture_dir,
 
     k = number_of_archetypes(lmbda, mixture_filepath, rpca_rank)
     print('number of archetypes=', k)
+    
     # Separate mix:
     sr = 16000
     data, sr = sf.read(filepath)
@@ -137,8 +149,8 @@ if __name__ == '__main__':
     for lmbda in lmbda_list:
         run_separation(wavfiles, lmbda)
 
-    # Evaluation metrics:
+    # Evaluation:
     test = evaluation.Eval()
-    med_sdr_list2, med_sir_list2, med_sar_list2 = test.eval_metrics(
+    med_sdr_list, med_sir_list, med_sar_list = test.eval_metrics(
                                                   wavfiles,
                                                   lmbda_list)

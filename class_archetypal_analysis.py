@@ -110,7 +110,7 @@ class Archetypal_analysis_sparseness():
         prevS = self.S.copy()
         s_num = (self.C.T).dot(self.X.T).dot(self.X)
         s_den = s_num.dot(self.C).dot(self.S) + \
-                (self.C.T).dot(self.X.T).dot(self.E)
+            (self.C.T).dot(self.X.T).dot(self.E)
         S = (prevS*s_num) / s_den
         S = normalize(S, norm='l1', axis=0)
         self.S = S
