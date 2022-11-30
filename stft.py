@@ -1,12 +1,12 @@
-import numpy as np
-import math
-
 '''
 d = stft(x, f , w, h) Short-time Fourier transform.
 Returns some frames of short-term Fourier transform of x.
 Each column of the result is one f-point fft each
 successive frame is offset by h points (w/2) until X is exhausted.
 '''
+
+import numpy as np
+import math
 
 
 def stft(x, f, w, h):

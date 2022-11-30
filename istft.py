@@ -1,6 +1,3 @@
-import numpy as np
-import math
-
 '''
 x = istft(d, f, w, h) Inverse short-time Fourier transform.
 Performs overlap-add resynthesis from the short-time Fourier transform
@@ -9,6 +6,9 @@ each successive frame was offset by h points.
 Data is hann-windowed at w pts.
 w as a vector uses that as window.
 '''
+
+import numpy as np
+import math
 
 
 def istft(d, ftsize, w, h):

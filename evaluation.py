@@ -47,7 +47,6 @@ class Eval():
         e_artif = se - P_S_se
         return s_target, e_interf, e_artif
 
-    # Compute SDR,SIR,SAR
     def safe_db(self, num, den):
 
         """
