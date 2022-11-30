@@ -16,13 +16,21 @@ This is a singing voice separation tool developed using unsupervised machine lea
 
 ## Dataset
 
-# MIR-1K Dataset
+### MIR-1K Dataset
 
-Music Information Retrieval, 1000 song clips [MIR-1K](https://sites.google.com/site/unvoicedsoundseparation/mir-1k), dataset for singing voice separation.
+Music Information Retrieval, 1000 song clips ([MIR-1K](https://sites.google.com/site/unvoicedsoundseparation/mir-1k)), dataset for singing voice separation.
 
 ## Usage
 
 ### Separation
+
+#### Robust Principal Component Analysis
+
+```
+python svs_using_rpca.py
+```
+
+#### Archetypal Analysis with Sparsity Constrints
 
 ### Evaluation
 
