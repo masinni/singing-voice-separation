@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is a singing voice separation tool developed using unsupervised machine learning methods. It can seperate the singing voice and the background music from the original song. 
+This is a singing voice separation tool developed using unsupervised machine learning methods. It can seperate the singing voice and the background music from the original song.
 
 It is a Python implementation of my thesis [Singing Voice Separation from Monaural Recordings
 using Archetypal Analysis](https://pergamos.lib.uoa.gr/uoa/dl/object/3242634/file.pdf).
@@ -28,16 +28,18 @@ Music Information Retrieval, 1000 song clips ([MIR-1K](https://sites.google.com/
 ### Separation
 
 #### Robust Principal Component Analysis
+
 To run separation using Robust Principal Component Analysis(RPCA), in terminal:
 
-```
+```bash
 $ python svs_using_rpca.py
 ```
 
 #### Archetypal Analysis with Sparsity Constrints
+
 To run separation using Archetypal Analysis with Sparsity Constrints, in terminal:
 
-```
+```bash
 $ python svs_using_archetypal_analysis.py
 ```
 
@@ -45,5 +47,5 @@ $ python svs_using_archetypal_analysis.py
 
 ## Referencies
 
-* P.-S. Huang, S. D. Chen, P. Smaragdis, M. Hasegawa-Johnson, "Singing-Voice Separation From 
+* P.-S. Huang, S. D. Chen, P. Smaragdis, M. Hasegawa-Johnson, "Singing-Voice Separation From
 Monaural Recordings Using Robust Principal Component Analysis" 2012.
