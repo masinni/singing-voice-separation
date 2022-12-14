@@ -49,7 +49,7 @@ class Archetypal_analysis_sparseness():
         """
         if hasattr(self, 'C') and hasattr(self, 'S') and hasattr(self, 'E'):
             XCS = (self.X).dot(self.C).dot(self.S)
-            error = (norm(self.X - XCS - self.E, 'fro')) / norm(self.X, 'fro')
+            error = norm(self.X - XCS - self.E, 'fro') / norm(self.X, 'fro')
         else:
             error = None
         return error

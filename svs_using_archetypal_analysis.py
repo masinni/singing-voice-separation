@@ -2,6 +2,8 @@
 We perform singing voice separation using Archetypal Analysis with sparseness
 constraints. We use the same stft, istft and evaluation functions as in SVS
 with RPCA in order to compare both methods.
+
+In the evaluation phase we get the
 """
 
 import os
@@ -43,7 +45,7 @@ def number_of_archetypes(lmbda, mixture_filepath, rpca_rank):
         sing_A = np.load(track)
 
         if lmbda == 0.1:
-            super_threshold_indices = sing_A < 1.0
+            super_threshold_indices = sing_A < 0.1
         elif lmbda == 0.5:
             super_threshold_indices = sing_A < 1.0
         elif lmbda == 1.0 or 1.5:
@@ -76,8 +78,8 @@ def singing_voice_separation(mixture_dir,
     background_filepath = background+'/'+mixture_filepath
 
     k = number_of_archetypes(lmbda, mixture_filepath, rpca_rank)
-    print('number of archetypes=', k)
-    
+    print('number of archetypes = ', k)
+
     # Separate mix:
     sr = 16000
     data, sr = sf.read(filepath)
@@ -150,7 +152,5 @@ if __name__ == '__main__':
         run_separation(wavfiles, lmbda)
 
     # Evaluation:
-    test = evaluation.Eval()
-    med_sdr_list, med_sir_list, med_sar_list = test.eval_metrics(
-                                                  wavfiles,
-                                                  lmbda_list)
+    archet_eval = evaluation.Eval()
+    archet_eval.eval_metrics(wavfiles, lmbda_list)
