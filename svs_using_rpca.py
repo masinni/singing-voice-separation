@@ -222,6 +222,6 @@ if __name__ == '__main__':
 
     # Evaluation metrics:
     test = evaluation.Eval()
-    med_sdr_list2, med_sir_list2, med_sar_list2 = test.eval_metrics(
+    med_sdr_list, med_sir_list, med_sar_list = test.eval_metrics(
                                                   wavfiles,
                                                   lmbda_list)

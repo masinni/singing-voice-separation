@@ -49,7 +49,7 @@ class Archetypal_analysis_sparseness():
         """
         if hasattr(self, 'C') and hasattr(self, 'S') and hasattr(self, 'E'):
             XCS = (self.X).dot(self.C).dot(self.S)
-            error = (norm(self.X - XCS - self.E, 'fro')) / norm(self.X, 'fro')
+            error = norm(self.X - XCS - self.E, 'fro') / norm(self.X, 'fro')
         else:
             error = None
         return error
@@ -110,7 +110,7 @@ class Archetypal_analysis_sparseness():
         prevS = self.S.copy()
         s_num = (self.C.T).dot(self.X.T).dot(self.X)
         s_den = s_num.dot(self.C).dot(self.S) + \
-                (self.C.T).dot(self.X.T).dot(self.E)
+            (self.C.T).dot(self.X.T).dot(self.E)
         S = (prevS*s_num) / s_den
         S = normalize(S, norm='l1', axis=0)
         self.S = S
@@ -124,7 +124,7 @@ class Archetypal_analysis_sparseness():
         prevE = self.E.copy()
 
         Eraw = self.X - (self.X).dot(self.C).dot(self.S)
-        E_upd = np.maximum(Eraw - self.l, 0) + np.minimum(Eraw + self.l, 0)
+        E_upd = np.maximum(Eraw - self.lmbda, 0) + np.minimum(Eraw + self.lmbda, 0)
         self.E = np.maximum(E_upd, 0.0)
 
         return self.E, prevE
