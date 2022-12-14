@@ -35,6 +35,11 @@ $ python svs_using_rpca.py
 ```
 
 #### Archetypal Analysis with Sparsity Constrints
+To run separation using Archetypal Analysis with Sparsity Constrints, in terminal:
+
+```
+$ python svs_using_archetypal_analysis.py
+```
 
 ### Evaluation
 
