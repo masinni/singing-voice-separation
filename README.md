@@ -45,6 +45,8 @@ $ python svs_using_archetypal_analysis.py
 
 ### Evaluation
 
+Evaluation is happening when we execute each method.
+
 ## Referencies
 
 * P.-S. Huang, S. D. Chen, P. Smaragdis, M. Hasegawa-Johnson, "Singing-Voice Separation From

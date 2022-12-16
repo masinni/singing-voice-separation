@@ -2,8 +2,6 @@
 We perform singing voice separation using Archetypal Analysis with sparseness
 constraints. We use the same stft, istft and evaluation functions as in SVS
 with RPCA in order to compare both methods.
-
-In the evaluation phase we get the
 """
 
 import os
@@ -20,14 +18,16 @@ import evaluation
 def number_of_archetypes(lmbda, mixture_filepath, rpca_rank):
     """
     The number of archetypes, k, is also the rank of matrices C,S.
+
     rpca_rank == True:
-    For comparison reasons we consider the rank of the low rank matrix
-    seperated with archetypal analyis method equal to the rank of the
-    low-rank matrix seperated with RPCA method.
+    we consider the rank of the low rank matrix seperated with archetypal
+    analyis method equal to the rank of the low-rank matrix seperated with
+    RPCA method (for comparison reasons).
     We have saved the singular-values matrix S, taken from the Singular
     Value Decomposition that we applyed to the low-rank matrix A separated
     using RPCA. Matrix S is equal to the rank of a matrix by applying
     a threshold to the values that are almost zero.
+
     rpca_Rank == False:
     k == 10 default value
     """
