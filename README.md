@@ -9,8 +9,8 @@ using Archetypal Analysis](https://pergamos.lib.uoa.gr/uoa/dl/object/3242634/fil
 
 ## Dependencies
 
-* Python==3.10.6
-* Numpy==1.21.5
+* Python==3.10.12
+* numpy==1.22.0
 * librosa==0.9.2
 * soundfile==0.11.0
 * matplotlib==3.5.1
