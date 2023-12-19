@@ -124,9 +124,9 @@ def singing_voice_separation(mixture_dir,
                              power,
                              mask=False):
 
-    filepath = mixture_dir+mixture_filepath
-    vocals_filepath = vocals+'/'+mixture_filepath
-    background_filepath = background+'/'+mixture_filepath
+    filepath = os.path.join(mixture_dir, mixture_filepath)
+    vocals_filepath = os.path.join(vocals, mixture_filepath)
+    background_filepath = os.path.join(background, mixture_filepath)
 
     # Separate mix:
     data, sr = sf.read(filepath)

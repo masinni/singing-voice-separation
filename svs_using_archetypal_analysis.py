@@ -28,34 +28,29 @@ def number_of_archetypes(lmbda, mixture_filepath, rpca_rank):
     using RPCA. Matrix S is equal to the rank of a matrix by applying
     a threshold to the values that are almost zero.
 
-    rpca_Rank == False:
-    k == 10 default value
+    Parameters:
+    - lmbda: Regularization parameter.
+    - mixture_filepath: Filepath of the mixture.
+    - rpca_rank: Boolean indicating whether to consider RPCA rank or use a default value.
+
+    Returns:
+    - k: Number of archetypes.
     """
     if rpca_rank:
         # Compute rank of low-rank matrix separated with RPCA
-        if lmbda == 0.1 or lmbda == 0.5 or lmbda == 2.0 or lmbda == 2.5:
-            sing_val = \
-                f'rpca_results/no_mask/results_for_l={lmbda}/matrices/singular_values_of_A/'
-        else:
-            sing_val = \
-                'rpca_results/no_mask/results_for_l=1.0/matrices/singular_values_of_A/'
+        lmbda_values = {0.1: 0.1, 0.5: 1.0, 1.0: 10.0, 1.5: 10.0, 2.0: 15.0, 2.5: 15.0}
+        sing_val_path = f'rpca_results/no_mask/results_for_l={lmbda}/matrices/singular_values_of_A/'
 
-        track = sing_val + f'S_{mixture_filepath}.npy'
+        if lmbda not in lmbda_values:
+            lmbda = 1.0  # Default value if lmbda is not in the predefined values
 
+        track = os.path.join(sing_val_path, f'S_{mixture_filepath}.npy')
         sing_A = np.load(track)
 
-        if lmbda == 0.1:
-            super_threshold_indices = sing_A < 0.1
-        elif lmbda == 0.5:
-            super_threshold_indices = sing_A < 1.0
-        elif lmbda == 1.0 or 1.5:
-            super_threshold_indices = sing_A < 10.0
-        elif lmbda == 2.0 or 2.5:
-            super_threshold_indices = sing_A < 15.0
-        else:
-            super_threshold_indices = sing_A < 25.0
-
+        threshold = lmbda_values[lmbda]
+        super_threshold_indices = sing_A < threshold
         sing_A[super_threshold_indices] = 0
+
         k = int(np.count_nonzero(sing_A))
     else:
         k = 10
@@ -73,9 +68,9 @@ def singing_voice_separation(mixture_dir,
                              h,
                              rpca_rank):
 
-    filepath = mixture_dir+mixture_filepath
-    vocals_filepath = vocals+'/'+mixture_filepath
-    background_filepath = background+'/'+mixture_filepath
+    filepath = os.path.join(mixture_dir, mixture_filepath)
+    vocals_filepath = os.path.join(vocals, mixture_filepath)
+    background_filepath = os.path.join(background, mixture_filepath)
 
     k = number_of_archetypes(lmbda, mixture_filepath, rpca_rank)
     print('number of archetypes = ', k)
