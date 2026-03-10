@@ -47,7 +47,7 @@ $ python svs_using_archetypal_analysis.py
 
 Evaluation is happening when we execute each method.
 
-## Referencies
+## References
 
 * P.-S. Huang, S. D. Chen, P. Smaragdis, M. Hasegawa-Johnson, "Singing-Voice Separation From
 Monaural Recordings Using Robust Principal Component Analysis" 2012.
